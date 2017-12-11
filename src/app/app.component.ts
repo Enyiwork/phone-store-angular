@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UserApiService } from './services/user-api.service';
 
@@ -10,7 +11,10 @@ import { UserApiService } from './services/user-api.service';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor (private userThang: UserApiService) { }
+  constructor (
+    private routerThang: Router,
+    private userThang: UserApiService
+  ) { }
 
   ngOnInit() {
     this.userThang.getCheckLogin()
@@ -18,6 +22,16 @@ export class AppComponent implements OnInit {
     // already has the ".then()" that what we need
     .catch((err) => {
        alert('Sorry Something is wrong here!!!...')
+    })
+  }
+
+  startLogOutAjax() {
+    this.userThang.logout()
+    .then(() => {
+       this.routerThang.navigate(['/']);
+    })
+    .catch((err) => {
+      alert('Sorry Something is wrong here!!!...')
     })
   }
 }

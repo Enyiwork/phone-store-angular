@@ -62,6 +62,20 @@ export class UserApiService {
   }
 
   // DELETE /api/logout
+  logout() {
+  return this.httpThang.delete(
+    `${environment.backendUrl}/api/logout`,
+
+    // send the cookies even to a different damain
+    { withCredentials: true }
+  ).toPromise()
+  .then((apiResult) => {
+    //update 'currentUser' since we are logget OUT
+    this.currentUser = null;
+    // return apiResult for the component
+    return apiResult;
+  });
+}
 
   // GET /api/checklogin
   getCheckLogin() {
