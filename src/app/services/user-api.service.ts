@@ -29,7 +29,10 @@ export class UserApiService {
   postSignup(userInfo: User) {
       return this.httpThang.post(
           `${environment.backendUrl}/api/signup`,
-          userInfo
+          userInfo,
+
+          // send the cookies even to a different damain
+          { withCredentials: true }
         )
         .toPromise()
         .then((apiResult: any) => {
@@ -44,7 +47,10 @@ export class UserApiService {
   postLogin(userInfo: User) {
       return this.httpThang.post(
           `${environment.backendUrl}/api/login`,
-          userInfo
+          userInfo,
+
+          // send the cookies even to a different damain
+          { withCredentials: true }
         )
         .toPromise()
         .then((apiResult: any) => {
@@ -58,5 +64,24 @@ export class UserApiService {
   // DELETE /api/logout
 
   // GET /api/checklogin
+  getCheckLogin() {
+  return this.httpThang.get(
+    `${environment.backendUrl}/api/checklogin`,
+
+     // send the cookies even to a different damain
+     { withCredentials: true }
+  )
+  .toPromise()
+  .then((apiResult: any) => {
+    // update "currentUser" in case we are logged in
+     this.currentUser = apiResult.userInfo;
+
+     //return "apiResult" for the component
+     return apiResult;
+  })
+  .catch((err) => {
+
+  });
+}
 
 }
